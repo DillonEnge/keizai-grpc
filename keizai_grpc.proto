@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "github.com/DillonEnge/keizai-grpc";
+
+service KeizaiGrpc {
+  rpc GetPosition(GetPositionRequest) returns (GetPositionResponse) {}
+  rpc UpdatePosition(UpdatePositionRequest) returns (Empty) {}
+}
+
+message Empty {}
+
+message GetPositionRequest {
+  string id = 1;
+}
+
+message GetPositionResponse {
+  PositionComponent position = 1;
+}
+
+message PositionComponent {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message UpdatePositionRequest {
+  string id = 1;
+  PositionComponent position = 2;
+}
