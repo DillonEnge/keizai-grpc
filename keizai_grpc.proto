@@ -3,9 +3,9 @@ syntax = "proto3";
 option go_package = "github.com/DillonEnge/keizai-grpc";
 
 service KeizaiGrpc {
-  rpc GetPosition(GetPositionRequest) returns (GetPositionResponse) {}
+  rpc GetPosition(stream GetPositionRequest) returns (stream GetPositionResponse) {}
   rpc UpdatePosition(UpdatePositionRequest) returns (Empty) {}
-  rpc GetEntityIds(Empty) returns (GetEntityIdsResponse) {}
+  rpc GetEntityIds(stream Empty) returns (stream GetEntityIdsResponse) {}
 }
 
 message Empty {}
