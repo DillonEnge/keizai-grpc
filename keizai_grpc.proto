@@ -5,7 +5,7 @@ option go_package = "github.com/DillonEnge/keizai-grpc";
 service KeizaiGrpc {
   rpc GetPosition(GetPositionRequest) returns (stream GetPositionResponse) {}
   rpc UpdatePosition(UpdatePositionRequest) returns (Empty) {}
-  rpc GetEntityIds(stream Empty) returns (stream GetEntityIdsResponse) {}
+  rpc GetEntityIds(Empty) returns (stream GetEntityIdsResponse) {}
 }
 
 message Empty {}
