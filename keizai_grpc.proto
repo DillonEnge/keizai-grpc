@@ -6,6 +6,7 @@ service KeizaiGrpc {
   rpc GetPosition(GetPositionRequest) returns (stream GetPositionResponse) {}
   rpc UpdatePosition(UpdatePositionRequest) returns (Empty) {}
   rpc GetEntityIds(Empty) returns (stream GetEntityIdsResponse) {}
+  rpc AddEntity(AddEntityRequest) returns (Empty) {}
 }
 
 message Empty {}
@@ -30,4 +31,9 @@ message UpdatePositionRequest {
 
 message GetEntityIdsResponse {
   repeated string ids = 1;
+}
+
+message AddEntityRequest {
+  string id = 1;
+  PositionComponent position = 2;
 }
