@@ -23,9 +23,11 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type KeizaiGrpcClient interface {
 	GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (KeizaiGrpc_GetPositionClient, error)
+	GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (KeizaiGrpc_GetMessageClient, error)
 	UpdatePosition(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*Empty, error)
 	GetEntityIds(ctx context.Context, in *Empty, opts ...grpc.CallOption) (KeizaiGrpc_GetEntityIdsClient, error)
 	AddEntity(ctx context.Context, in *AddEntityRequest, opts ...grpc.CallOption) (*Empty, error)
+	SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type keizaiGrpcClient struct {
@@ -68,6 +70,38 @@ func (x *keizaiGrpcGetPositionClient) Recv() (*GetPositionResponse, error) {
 	return m, nil
 }
 
+func (c *keizaiGrpcClient) GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (KeizaiGrpc_GetMessageClient, error) {
+	stream, err := c.cc.NewStream(ctx, &KeizaiGrpc_ServiceDesc.Streams[1], "/KeizaiGrpc/GetMessage", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &keizaiGrpcGetMessageClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type KeizaiGrpc_GetMessageClient interface {
+	Recv() (*GetMessageResponse, error)
+	grpc.ClientStream
+}
+
+type keizaiGrpcGetMessageClient struct {
+	grpc.ClientStream
+}
+
+func (x *keizaiGrpcGetMessageClient) Recv() (*GetMessageResponse, error) {
+	m := new(GetMessageResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *keizaiGrpcClient) UpdatePosition(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/KeizaiGrpc/UpdatePosition", in, out, opts...)
@@ -78,7 +112,7 @@ func (c *keizaiGrpcClient) UpdatePosition(ctx context.Context, in *UpdatePositio
 }
 
 func (c *keizaiGrpcClient) GetEntityIds(ctx context.Context, in *Empty, opts ...grpc.CallOption) (KeizaiGrpc_GetEntityIdsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &KeizaiGrpc_ServiceDesc.Streams[1], "/KeizaiGrpc/GetEntityIds", opts...)
+	stream, err := c.cc.NewStream(ctx, &KeizaiGrpc_ServiceDesc.Streams[2], "/KeizaiGrpc/GetEntityIds", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,14 +152,25 @@ func (c *keizaiGrpcClient) AddEntity(ctx context.Context, in *AddEntityRequest, 
 	return out, nil
 }
 
+func (c *keizaiGrpcClient) SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/KeizaiGrpc/SendMessage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KeizaiGrpcServer is the server API for KeizaiGrpc service.
 // All implementations must embed UnimplementedKeizaiGrpcServer
 // for forward compatibility
 type KeizaiGrpcServer interface {
 	GetPosition(*GetPositionRequest, KeizaiGrpc_GetPositionServer) error
+	GetMessage(*GetMessageRequest, KeizaiGrpc_GetMessageServer) error
 	UpdatePosition(context.Context, *UpdatePositionRequest) (*Empty, error)
 	GetEntityIds(*Empty, KeizaiGrpc_GetEntityIdsServer) error
 	AddEntity(context.Context, *AddEntityRequest) (*Empty, error)
+	SendMessage(context.Context, *SendMessageRequest) (*Empty, error)
 	mustEmbedUnimplementedKeizaiGrpcServer()
 }
 
@@ -136,6 +181,9 @@ type UnimplementedKeizaiGrpcServer struct {
 func (UnimplementedKeizaiGrpcServer) GetPosition(*GetPositionRequest, KeizaiGrpc_GetPositionServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
 }
+func (UnimplementedKeizaiGrpcServer) GetMessage(*GetMessageRequest, KeizaiGrpc_GetMessageServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetMessage not implemented")
+}
 func (UnimplementedKeizaiGrpcServer) UpdatePosition(context.Context, *UpdatePositionRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePosition not implemented")
 }
@@ -144,6 +192,9 @@ func (UnimplementedKeizaiGrpcServer) GetEntityIds(*Empty, KeizaiGrpc_GetEntityId
 }
 func (UnimplementedKeizaiGrpcServer) AddEntity(context.Context, *AddEntityRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddEntity not implemented")
+}
+func (UnimplementedKeizaiGrpcServer) SendMessage(context.Context, *SendMessageRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
 }
 func (UnimplementedKeizaiGrpcServer) mustEmbedUnimplementedKeizaiGrpcServer() {}
 
@@ -176,6 +227,27 @@ type keizaiGrpcGetPositionServer struct {
 }
 
 func (x *keizaiGrpcGetPositionServer) Send(m *GetPositionResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _KeizaiGrpc_GetMessage_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetMessageRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(KeizaiGrpcServer).GetMessage(m, &keizaiGrpcGetMessageServer{stream})
+}
+
+type KeizaiGrpc_GetMessageServer interface {
+	Send(*GetMessageResponse) error
+	grpc.ServerStream
+}
+
+type keizaiGrpcGetMessageServer struct {
+	grpc.ServerStream
+}
+
+func (x *keizaiGrpcGetMessageServer) Send(m *GetMessageResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -236,6 +308,24 @@ func _KeizaiGrpc_AddEntity_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeizaiGrpc_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendMessageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeizaiGrpcServer).SendMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/KeizaiGrpc/SendMessage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeizaiGrpcServer).SendMessage(ctx, req.(*SendMessageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KeizaiGrpc_ServiceDesc is the grpc.ServiceDesc for KeizaiGrpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -251,11 +341,20 @@ var KeizaiGrpc_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AddEntity",
 			Handler:    _KeizaiGrpc_AddEntity_Handler,
 		},
+		{
+			MethodName: "SendMessage",
+			Handler:    _KeizaiGrpc_SendMessage_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "GetPosition",
 			Handler:       _KeizaiGrpc_GetPosition_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetMessage",
+			Handler:       _KeizaiGrpc_GetMessage_Handler,
 			ServerStreams: true,
 		},
 		{
