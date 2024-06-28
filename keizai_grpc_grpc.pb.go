@@ -27,6 +27,7 @@ type KeizaiGrpcClient interface {
 	UpdatePosition(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*Empty, error)
 	GetEntityIds(ctx context.Context, in *Empty, opts ...grpc.CallOption) (KeizaiGrpc_GetEntityIdsClient, error)
 	AddEntity(ctx context.Context, in *AddEntityRequest, opts ...grpc.CallOption) (*Empty, error)
+	RemoveEntity(ctx context.Context, in *RemoveEntityRequest, opts ...grpc.CallOption) (*Empty, error)
 	SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
@@ -152,6 +153,15 @@ func (c *keizaiGrpcClient) AddEntity(ctx context.Context, in *AddEntityRequest, 
 	return out, nil
 }
 
+func (c *keizaiGrpcClient) RemoveEntity(ctx context.Context, in *RemoveEntityRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/KeizaiGrpc/RemoveEntity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *keizaiGrpcClient) SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/KeizaiGrpc/SendMessage", in, out, opts...)
@@ -170,6 +180,7 @@ type KeizaiGrpcServer interface {
 	UpdatePosition(context.Context, *UpdatePositionRequest) (*Empty, error)
 	GetEntityIds(*Empty, KeizaiGrpc_GetEntityIdsServer) error
 	AddEntity(context.Context, *AddEntityRequest) (*Empty, error)
+	RemoveEntity(context.Context, *RemoveEntityRequest) (*Empty, error)
 	SendMessage(context.Context, *SendMessageRequest) (*Empty, error)
 	mustEmbedUnimplementedKeizaiGrpcServer()
 }
@@ -192,6 +203,9 @@ func (UnimplementedKeizaiGrpcServer) GetEntityIds(*Empty, KeizaiGrpc_GetEntityId
 }
 func (UnimplementedKeizaiGrpcServer) AddEntity(context.Context, *AddEntityRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddEntity not implemented")
+}
+func (UnimplementedKeizaiGrpcServer) RemoveEntity(context.Context, *RemoveEntityRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveEntity not implemented")
 }
 func (UnimplementedKeizaiGrpcServer) SendMessage(context.Context, *SendMessageRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
@@ -308,6 +322,24 @@ func _KeizaiGrpc_AddEntity_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeizaiGrpc_RemoveEntity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveEntityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeizaiGrpcServer).RemoveEntity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/KeizaiGrpc/RemoveEntity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeizaiGrpcServer).RemoveEntity(ctx, req.(*RemoveEntityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _KeizaiGrpc_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendMessageRequest)
 	if err := dec(in); err != nil {
@@ -340,6 +372,10 @@ var KeizaiGrpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddEntity",
 			Handler:    _KeizaiGrpc_AddEntity_Handler,
+		},
+		{
+			MethodName: "RemoveEntity",
+			Handler:    _KeizaiGrpc_RemoveEntity_Handler,
 		},
 		{
 			MethodName: "SendMessage",
