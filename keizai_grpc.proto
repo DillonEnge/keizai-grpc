@@ -11,13 +11,13 @@ service KeizaiGrpc {
 
 message Empty {}
 
-message GetPositionRequest {
-  string id = 1;
-}
-
 message PositionComponent {
   int32 x = 1;
   int32 y = 2;
+}
+
+message GetPositionRequest {
+  string id = 1;
 }
 
 message UpdatePositionRequest {
@@ -26,7 +26,6 @@ message UpdatePositionRequest {
 }
 
 message CreateEntityRequest {
-  string id = 1;
   PositionComponent position = 2;
 }
 

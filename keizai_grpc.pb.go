@@ -58,53 +58,6 @@ func (*Empty) Descriptor() ([]byte, []int) {
 	return file_keizai_grpc_proto_rawDescGZIP(), []int{0}
 }
 
-type GetPositionRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (x *GetPositionRequest) Reset() {
-	*x = GetPositionRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_keizai_grpc_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetPositionRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetPositionRequest) ProtoMessage() {}
-
-func (x *GetPositionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_keizai_grpc_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetPositionRequest.ProtoReflect.Descriptor instead.
-func (*GetPositionRequest) Descriptor() ([]byte, []int) {
-	return file_keizai_grpc_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetPositionRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
 type PositionComponent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -117,7 +70,7 @@ type PositionComponent struct {
 func (x *PositionComponent) Reset() {
 	*x = PositionComponent{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_keizai_grpc_proto_msgTypes[2]
+		mi := &file_keizai_grpc_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -130,7 +83,7 @@ func (x *PositionComponent) String() string {
 func (*PositionComponent) ProtoMessage() {}
 
 func (x *PositionComponent) ProtoReflect() protoreflect.Message {
-	mi := &file_keizai_grpc_proto_msgTypes[2]
+	mi := &file_keizai_grpc_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,7 +96,7 @@ func (x *PositionComponent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PositionComponent.ProtoReflect.Descriptor instead.
 func (*PositionComponent) Descriptor() ([]byte, []int) {
-	return file_keizai_grpc_proto_rawDescGZIP(), []int{2}
+	return file_keizai_grpc_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *PositionComponent) GetX() int32 {
@@ -158,6 +111,53 @@ func (x *PositionComponent) GetY() int32 {
 		return x.Y
 	}
 	return 0
+}
+
+type GetPositionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetPositionRequest) Reset() {
+	*x = GetPositionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_keizai_grpc_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPositionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPositionRequest) ProtoMessage() {}
+
+func (x *GetPositionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_keizai_grpc_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPositionRequest.ProtoReflect.Descriptor instead.
+func (*GetPositionRequest) Descriptor() ([]byte, []int) {
+	return file_keizai_grpc_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetPositionRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 type UpdatePositionRequest struct {
@@ -220,7 +220,6 @@ type CreateEntityRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string             `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Position *PositionComponent `protobuf:"bytes,2,opt,name=position,proto3" json:"position,omitempty"`
 }
 
@@ -254,13 +253,6 @@ func (x *CreateEntityRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateEntityRequest.ProtoReflect.Descriptor instead.
 func (*CreateEntityRequest) Descriptor() ([]byte, []int) {
 	return file_keizai_grpc_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *CreateEntityRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
 }
 
 func (x *CreateEntityRequest) GetPosition() *PositionComponent {
@@ -321,21 +313,20 @@ var File_keizai_grpc_proto protoreflect.FileDescriptor
 
 var file_keizai_grpc_proto_rawDesc = []byte{
 	0x0a, 0x11, 0x6b, 0x65, 0x69, 0x7a, 0x61, 0x69, 0x5f, 0x67, 0x72, 0x70, 0x63, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x24, 0x0a, 0x12,
-	0x47, 0x65, 0x74, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x69, 0x64, 0x22, 0x2f, 0x0a, 0x11, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f,
-	0x6d, 0x70, 0x6f, 0x6e, 0x65, 0x6e, 0x74, 0x12, 0x0c, 0x0a, 0x01, 0x78, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x05, 0x52, 0x01, 0x78, 0x12, 0x0c, 0x0a, 0x01, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x01, 0x79, 0x22, 0x57, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73,
+	0x6f, 0x74, 0x6f, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x2f, 0x0a, 0x11,
+	0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6d, 0x70, 0x6f, 0x6e, 0x65, 0x6e,
+	0x74, 0x12, 0x0c, 0x0a, 0x01, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x78, 0x12,
+	0x0c, 0x0a, 0x01, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x79, 0x22, 0x24, 0x0a,
+	0x12, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x69, 0x64, 0x22, 0x57, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73,
 	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02,
 	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x2e, 0x0a, 0x08,
 	0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12,
 	0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6d, 0x70, 0x6f, 0x6e, 0x65,
-	0x6e, 0x74, 0x52, 0x08, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x55, 0x0a, 0x13,
+	0x6e, 0x74, 0x52, 0x08, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x45, 0x0a, 0x13,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x02, 0x69, 0x64, 0x12, 0x2e, 0x0a, 0x08, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x18,
+	0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x08, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x18,
 	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e,
 	0x43, 0x6f, 0x6d, 0x70, 0x6f, 0x6e, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x70, 0x6f, 0x73, 0x69, 0x74,
 	0x69, 0x6f, 0x6e, 0x22, 0x25, 0x0a, 0x13, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x45, 0x6e, 0x74,
@@ -375,20 +366,20 @@ func file_keizai_grpc_proto_rawDescGZIP() []byte {
 var file_keizai_grpc_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_keizai_grpc_proto_goTypes = []interface{}{
 	(*Empty)(nil),                 // 0: Empty
-	(*GetPositionRequest)(nil),    // 1: GetPositionRequest
-	(*PositionComponent)(nil),     // 2: PositionComponent
+	(*PositionComponent)(nil),     // 1: PositionComponent
+	(*GetPositionRequest)(nil),    // 2: GetPositionRequest
 	(*UpdatePositionRequest)(nil), // 3: UpdatePositionRequest
 	(*CreateEntityRequest)(nil),   // 4: CreateEntityRequest
 	(*DeleteEntityRequest)(nil),   // 5: DeleteEntityRequest
 }
 var file_keizai_grpc_proto_depIdxs = []int32{
-	2, // 0: UpdatePositionRequest.position:type_name -> PositionComponent
-	2, // 1: CreateEntityRequest.position:type_name -> PositionComponent
-	1, // 2: KeizaiGrpc.GetPosition:input_type -> GetPositionRequest
+	1, // 0: UpdatePositionRequest.position:type_name -> PositionComponent
+	1, // 1: CreateEntityRequest.position:type_name -> PositionComponent
+	2, // 2: KeizaiGrpc.GetPosition:input_type -> GetPositionRequest
 	3, // 3: KeizaiGrpc.UpdatePosition:input_type -> UpdatePositionRequest
 	4, // 4: KeizaiGrpc.CreateEntity:input_type -> CreateEntityRequest
 	5, // 5: KeizaiGrpc.DeleteEntity:input_type -> DeleteEntityRequest
-	2, // 6: KeizaiGrpc.GetPosition:output_type -> PositionComponent
+	1, // 6: KeizaiGrpc.GetPosition:output_type -> PositionComponent
 	0, // 7: KeizaiGrpc.UpdatePosition:output_type -> Empty
 	0, // 8: KeizaiGrpc.CreateEntity:output_type -> Empty
 	0, // 9: KeizaiGrpc.DeleteEntity:output_type -> Empty
@@ -418,7 +409,7 @@ func file_keizai_grpc_proto_init() {
 			}
 		}
 		file_keizai_grpc_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetPositionRequest); i {
+			switch v := v.(*PositionComponent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -430,7 +421,7 @@ func file_keizai_grpc_proto_init() {
 			}
 		}
 		file_keizai_grpc_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PositionComponent); i {
+			switch v := v.(*GetPositionRequest); i {
 			case 0:
 				return &v.state
 			case 1:
