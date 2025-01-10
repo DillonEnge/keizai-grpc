@@ -3,32 +3,16 @@ syntax = "proto3";
 option go_package = "github.com/DillonEnge/keizai-grpc";
 
 service KeizaiGrpc {
-  rpc GetPosition(GetPositionRequest) returns (stream GetPositionResponse) {}
-  rpc GetMessage(GetMessageRequest) returns (stream GetMessageResponse) {}
+  rpc GetPosition(GetPositionRequest) returns (PositionComponent) {}
   rpc UpdatePosition(UpdatePositionRequest) returns (Empty) {}
-  rpc GetEntityIds(Empty) returns (stream GetEntityIdsResponse) {}
-  rpc AddEntity(AddEntityRequest) returns (Empty) {}
-  rpc RemoveEntity(RemoveEntityRequest) returns (Empty) {}
-  rpc SendMessage(SendMessageRequest) returns (Empty) {}
+  rpc CreateEntity(CreateEntityRequest) returns (Empty) {}
+  rpc DeleteEntity(DeleteEntityRequest) returns (Empty) {}
 }
 
 message Empty {}
 
 message GetPositionRequest {
   string id = 1;
-}
-
-message GetPositionResponse {
-  PositionComponent position = 1;
-}
-
-message GetMessageRequest {
-  string id = 1;
-}
-
-message GetMessageResponse {
-  string id = 1;
-  string message = 2;
 }
 
 message PositionComponent {
@@ -41,20 +25,11 @@ message UpdatePositionRequest {
   PositionComponent position = 2;
 }
 
-message GetEntityIdsResponse {
-  repeated string ids = 1;
-}
-
-message AddEntityRequest {
+message CreateEntityRequest {
   string id = 1;
   PositionComponent position = 2;
 }
 
-message RemoveEntityRequest {
+message DeleteEntityRequest {
   string id = 1;
-}
-
-message SendMessageRequest {
-  string id = 1;
-  string message = 2;
 }
