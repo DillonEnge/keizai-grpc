@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type KeizaiGrpcClient interface {
 	GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*PositionComponent, error)
 	UpdatePosition(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*Empty, error)
-	CreateEntity(ctx context.Context, in *CreateEntityRequest, opts ...grpc.CallOption) (*Empty, error)
+	CreateEntity(ctx context.Context, in *CreateEntityRequest, opts ...grpc.CallOption) (*CreateEntityResponse, error)
 	DeleteEntity(ctx context.Context, in *DeleteEntityRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
@@ -54,8 +54,8 @@ func (c *keizaiGrpcClient) UpdatePosition(ctx context.Context, in *UpdatePositio
 	return out, nil
 }
 
-func (c *keizaiGrpcClient) CreateEntity(ctx context.Context, in *CreateEntityRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *keizaiGrpcClient) CreateEntity(ctx context.Context, in *CreateEntityRequest, opts ...grpc.CallOption) (*CreateEntityResponse, error) {
+	out := new(CreateEntityResponse)
 	err := c.cc.Invoke(ctx, "/KeizaiGrpc/CreateEntity", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func (c *keizaiGrpcClient) DeleteEntity(ctx context.Context, in *DeleteEntityReq
 type KeizaiGrpcServer interface {
 	GetPosition(context.Context, *GetPositionRequest) (*PositionComponent, error)
 	UpdatePosition(context.Context, *UpdatePositionRequest) (*Empty, error)
-	CreateEntity(context.Context, *CreateEntityRequest) (*Empty, error)
+	CreateEntity(context.Context, *CreateEntityRequest) (*CreateEntityResponse, error)
 	DeleteEntity(context.Context, *DeleteEntityRequest) (*Empty, error)
 	mustEmbedUnimplementedKeizaiGrpcServer()
 }
@@ -93,7 +93,7 @@ func (UnimplementedKeizaiGrpcServer) GetPosition(context.Context, *GetPositionRe
 func (UnimplementedKeizaiGrpcServer) UpdatePosition(context.Context, *UpdatePositionRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePosition not implemented")
 }
-func (UnimplementedKeizaiGrpcServer) CreateEntity(context.Context, *CreateEntityRequest) (*Empty, error) {
+func (UnimplementedKeizaiGrpcServer) CreateEntity(context.Context, *CreateEntityRequest) (*CreateEntityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEntity not implemented")
 }
 func (UnimplementedKeizaiGrpcServer) DeleteEntity(context.Context, *DeleteEntityRequest) (*Empty, error) {

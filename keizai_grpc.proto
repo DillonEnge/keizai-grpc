@@ -5,7 +5,7 @@ option go_package = "github.com/DillonEnge/keizai-grpc";
 service KeizaiGrpc {
   rpc GetPosition(GetPositionRequest) returns (PositionComponent) {}
   rpc UpdatePosition(UpdatePositionRequest) returns (Empty) {}
-  rpc CreateEntity(CreateEntityRequest) returns (Empty) {}
+  rpc CreateEntity(CreateEntityRequest) returns (CreateEntityResponse) {}
   rpc DeleteEntity(DeleteEntityRequest) returns (Empty) {}
 }
 
@@ -27,6 +27,10 @@ message UpdatePositionRequest {
 
 message CreateEntityRequest {
   PositionComponent position = 2;
+}
+
+message CreateEntityResponse {
+  string id = 1;
 }
 
 message DeleteEntityRequest {
